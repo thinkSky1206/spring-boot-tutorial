@@ -1,0 +1,6 @@
+debug: true
+
+spring:
+  thymeleaf:
+    cache: true
+    mode: LEGACYHTML5

@@ -1,0 +1,17 @@
+
+
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+/**/.mvn
+/**/mvnw
+/**/mvnw.cmd
+**/target
+/**/.gitignore
+!/.gitignore
+
+
