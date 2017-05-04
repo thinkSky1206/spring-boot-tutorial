@@ -87,7 +87,7 @@
                 <configuration>
                     <imageName>${project.artifactId}</imageName>
                     <!--<dockerDirectory>src/main/docker</dockerDirectory>-->
-                    <baseImage>java:8</baseImage>
+                    <baseImage>daocloud.io/library/java</baseImage>
                     <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
                     <resources>
                         <resource>
