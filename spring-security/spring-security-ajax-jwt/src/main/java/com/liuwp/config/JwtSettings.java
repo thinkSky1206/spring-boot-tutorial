@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "demo.security.jwt")
+@ConfigurationProperties(prefix = "demo.security.auth")
 public class JwtSettings {
 
     private Integer tokenExpirationTime;

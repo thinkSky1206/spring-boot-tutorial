@@ -1,6 +1,6 @@
-package com.liuwp.auth.ajax;
+package com.liuwp.jwt.login;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liuwp.util.JsonUtil;
 import com.liuwp.util.WebUtil;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.FilterChain;
@@ -29,14 +28,11 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
     private final AuthenticationSuccessHandler successHandler;
     private final AuthenticationFailureHandler failureHandler;
 
-    private final ObjectMapper objectMapper;
-
     public AjaxLoginProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler,
-                                     AuthenticationFailureHandler failureHandler, ObjectMapper mapper) {
+                                     AuthenticationFailureHandler failureHandler) {
         super(defaultProcessUrl);
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
-        this.objectMapper = mapper;
     }
 
     @Override
@@ -48,7 +44,7 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
             throw new AuthenticationServiceException("Authentication method not supported");
         }
 
-        LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
+        LoginRequest loginRequest = JsonUtil.getJsonMapper().readValue(request.getReader(), LoginRequest.class);
 
         if (StringUtils.isEmpty(loginRequest.getUsername()) || StringUtils.isEmpty(loginRequest.getPassword())) {
             throw new AuthenticationServiceException("Username or Password not provided");

@@ -1,4 +1,4 @@
-package com.liuwp.auth.entity;
+package com.liuwp.jwt.entity;
 
 /**
  * Scopes

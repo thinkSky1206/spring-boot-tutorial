@@ -1,14 +1,12 @@
 package com.liuwp.config;
 
 
-import com.liuwp.auth.RestAuthenticationEntryPoint;
-import com.liuwp.auth.ajax.AjaxAuthenticationProvider;
-import com.liuwp.auth.ajax.AjaxLoginProcessingFilter;
+import com.liuwp.jwt.RestAuthenticationEntryPoint;
+import com.liuwp.jwt.login.AjaxAuthenticationProvider;
+import com.liuwp.jwt.login.AjaxLoginProcessingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,8 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * WebSecurityConfig
@@ -29,11 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages = "com.liuwp.auth")
+@ComponentScan(basePackages = "com.liuwp.jwt")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    public static final String JWT_TOKEN_HEADER_PARAM = "X-Authorization";
     public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/api/auth/login";
-    //    public static final String TOKEN_REFRESH_ENTRY_POINT = "/api/auth/token";
+    public static final String TOKEN_REFRESH_ENTRY_POINT = "/api/auth/token";
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/**";
 
     @Autowired
@@ -45,23 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AjaxAuthenticationProvider ajaxAuthenticationProvider;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    //ajax
+    //login
 //    @Autowired
 //    private AjaxLoginProcessingFilter ajaxLoginProcessingFilter;
 
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -92,12 +75,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
-
-
     public AjaxLoginProcessingFilter ajaxLoginProcessingFilter() throws Exception {
-        AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT, successHandler, failureHandler, objectMapper);
-        filter.setAuthenticationManager(this.authenticationManager);
+        AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT, successHandler, failureHandler);
+        filter.setAuthenticationManager(authenticationManager());
         return filter;
     }
 

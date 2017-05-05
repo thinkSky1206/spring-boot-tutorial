@@ -1,9 +1,9 @@
-package com.liuwp.auth.entity.token;
+package com.liuwp.jwt.entity.token;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.liuwp.auth.entity.Scopes;
+import com.liuwp.jwt.entity.Scopes;
 import org.springframework.security.authentication.BadCredentialsException;
 
 

@@ -1,4 +1,4 @@
-package com.liuwp.auth.ajax;
+package com.liuwp.jwt.login;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

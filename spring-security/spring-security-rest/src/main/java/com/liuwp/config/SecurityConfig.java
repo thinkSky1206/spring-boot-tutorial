@@ -1,7 +1,7 @@
 package com.liuwp.config;
 
-import com.liuwp.auth.CustomSuccessHandler;
-import com.liuwp.auth.RestAuthenticationEntryPoint;
+import com.liuwp.jwt.CustomSuccessHandler;
+import com.liuwp.jwt.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
  */
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages = "com.liuwp.auth")
+@ComponentScan(basePackages = "com.liuwp.jwt")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 

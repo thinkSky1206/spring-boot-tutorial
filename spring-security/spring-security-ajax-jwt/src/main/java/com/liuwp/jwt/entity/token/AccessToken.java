@@ -1,4 +1,4 @@
-package com.liuwp.auth.entity.token;
+package com.liuwp.jwt.entity.token;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

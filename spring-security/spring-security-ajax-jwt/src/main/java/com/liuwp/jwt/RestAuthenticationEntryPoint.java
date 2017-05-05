@@ -1,4 +1,4 @@
-package com.liuwp.auth;
+package com.liuwp.jwt;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.liuwp.auth.exceptions;
+package com.liuwp.jwt.exceptions;
 
 /**
  * JwtTokenNotValid

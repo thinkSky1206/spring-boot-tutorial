@@ -1,4 +1,4 @@
-package com.liuwp.auth;
+package com.liuwp.jwt;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;

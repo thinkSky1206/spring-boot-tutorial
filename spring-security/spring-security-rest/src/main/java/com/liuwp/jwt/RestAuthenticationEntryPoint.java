@@ -1,4 +1,4 @@
-package com.liuwp.auth;
+package com.liuwp.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

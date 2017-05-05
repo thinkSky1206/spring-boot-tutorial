@@ -1,4 +1,4 @@
-package com.liuwp.auth.entity.token;
+package com.liuwp.jwt.entity.token;
 
 public interface JwtToken {
     String getToken();

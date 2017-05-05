@@ -1,4 +1,4 @@
-package com.liuwp.auth.entity.token;
+package com.liuwp.jwt.entity.token;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.liuwp.auth.entity.Scopes;
-import com.liuwp.auth.entity.UserContext;
+import com.liuwp.jwt.entity.Scopes;
+import com.liuwp.jwt.entity.UserContext;
 import com.liuwp.config.JwtSettings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
