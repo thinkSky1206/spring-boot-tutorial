@@ -1,10 +1,10 @@
 package com.liuwp.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
-@ConfigurationProperties(prefix = "demo.security.auth")
+@Component
+@ConfigurationProperties(prefix = "liuwp.jwt")
 public class JwtSettings {
 
     private Integer tokenExpirationTime;

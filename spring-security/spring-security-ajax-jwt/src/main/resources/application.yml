@@ -1,4 +1,4 @@
-demo.security.jwt:
+liuwp.jwt:
   tokenExpirationTime: 15 # Number of minutes
   refreshTokenExpTime: 60 # Minutes
   tokenIssuer: http://svlada.com

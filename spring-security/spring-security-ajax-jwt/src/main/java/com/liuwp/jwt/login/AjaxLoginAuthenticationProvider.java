@@ -22,11 +22,11 @@ import org.springframework.util.Assert;
  *         Aug 3, 2016
  */
 @Component
-public class AjaxAuthenticationProvider implements AuthenticationProvider {
+public class AjaxLoginAuthenticationProvider implements AuthenticationProvider {
 //    private final BCryptPasswordEncoder encoder;
 //    private final DatabaseUserService userService;
 
-    public AjaxAuthenticationProvider() {
+    public AjaxLoginAuthenticationProvider() {
     }
 
 

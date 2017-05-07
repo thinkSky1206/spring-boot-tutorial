@@ -1,8 +1,12 @@
 package com.liuwp.config;
 
 
-import com.liuwp.jwt.RestAuthenticationEntryPoint;
-import com.liuwp.jwt.login.AjaxAuthenticationProvider;
+import com.liuwp.jwt.JwtTokenService;
+import com.liuwp.jwt.auth.SkipPathRequestMatcher;
+import com.liuwp.jwt.auth.TokenAuthenticationProcessingFilter;
+import com.liuwp.jwt.auth.TokenAuthenticationProvider;
+import com.liuwp.jwt.handler.RestAuthenticationEntryPoint;
+import com.liuwp.jwt.login.AjaxLoginAuthenticationProvider;
 import com.liuwp.jwt.login.AjaxLoginProcessingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,6 +19,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * WebSecurityConfig
@@ -38,17 +45,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler failureHandler;
     @Autowired
-    private AjaxAuthenticationProvider ajaxAuthenticationProvider;
+    private AjaxLoginAuthenticationProvider ajaxAuthenticationProvider;
 
+    @Autowired
+    private TokenAuthenticationProvider tokenAuthenticationProvider;
 
-    //login
-//    @Autowired
-//    private AjaxLoginProcessingFilter ajaxLoginProcessingFilter;
+    @Autowired
+    private  JwtTokenService tokenService;
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(ajaxAuthenticationProvider);
+        auth.authenticationProvider(tokenAuthenticationProvider);
     }
 
     @Override
@@ -65,18 +74,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(FORM_BASED_LOGIN_ENTRY_POINT).permitAll() // Login end-point
-//                .antMatchers(TOKEN_REFRESH_ENTRY_POINT).permitAll() // Token refresh end-point
+                .antMatchers(TOKEN_REFRESH_ENTRY_POINT).permitAll() // Token refresh end-point
                 .and()
                 .authorizeRequests()
                 .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated() // Protected API End-points
                 .and()
-                .addFilterBefore(ajaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
-//                .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(ajaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 
     public AjaxLoginProcessingFilter ajaxLoginProcessingFilter() throws Exception {
         AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT, successHandler, failureHandler);
+        filter.setAuthenticationManager(authenticationManager());
+        return filter;
+    }
+
+    public TokenAuthenticationProcessingFilter tokenProcessingFilter() throws Exception {
+        List<String> pathsToSkip = Arrays.asList(TOKEN_REFRESH_ENTRY_POINT, FORM_BASED_LOGIN_ENTRY_POINT);
+        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
+        TokenAuthenticationProcessingFilter filter = new TokenAuthenticationProcessingFilter(matcher, tokenService, failureHandler);
         filter.setAuthenticationManager(authenticationManager());
         return filter;
     }

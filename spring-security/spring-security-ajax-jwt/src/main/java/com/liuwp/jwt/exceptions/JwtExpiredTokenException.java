@@ -1,6 +1,6 @@
 package com.liuwp.jwt.exceptions;
 
-import com.liuwp.jwt.entity.token.JwtToken;
+import com.liuwp.jwt.entity.JwtToken;
 import org.springframework.security.core.AuthenticationException;
 
 

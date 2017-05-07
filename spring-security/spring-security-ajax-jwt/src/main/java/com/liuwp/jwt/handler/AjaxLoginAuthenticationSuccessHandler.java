@@ -1,4 +1,4 @@
-package com.liuwp.jwt.login;
+package com.liuwp.jwt.handler;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.liuwp.jwt.JwtTokenService;
 import com.liuwp.jwt.entity.UserContext;
-import com.liuwp.jwt.entity.token.JwtToken;
-import com.liuwp.jwt.entity.token.JwtTokenFactory;
+import com.liuwp.jwt.entity.JwtToken;
 import com.liuwp.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,29 +23,29 @@ import org.springframework.stereotype.Component;
 
 /**
  * AjaxAwareAuthenticationSuccessHandler
- * 
- * @author vladimir.stankovic
  *
+ * @author vladimir.stankovic
+ *         <p>
  *         Aug 3, 2016
  */
 @Component
 public class AjaxLoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final JwtTokenFactory tokenFactory;
+    private final JwtTokenService tokenService;
 
     @Autowired
-    public AjaxLoginAuthenticationSuccessHandler(final JwtTokenFactory tokenFactory) {
-        this.tokenFactory = tokenFactory;
+    public AjaxLoginAuthenticationSuccessHandler(final JwtTokenService tokenService) {
+        this.tokenService = tokenService;
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) throws IOException, ServletException {
+                                        Authentication authentication) throws IOException, ServletException {
         UserContext userContext = (UserContext) authentication.getPrincipal();
-        
-        JwtToken accessToken = tokenFactory.createAccessJwtToken(userContext);
-        JwtToken refreshToken = tokenFactory.createRefreshToken(userContext);
-        
+
+        JwtToken accessToken = tokenService.createAccessToken(userContext);
+        JwtToken refreshToken = tokenService.createRefreshToken(userContext);
+
         Map<String, String> tokenMap = new HashMap<String, String>();
         tokenMap.put("token", accessToken.getToken());
         tokenMap.put("refreshToken", refreshToken.getToken());
@@ -60,7 +60,6 @@ public class AjaxLoginAuthenticationSuccessHandler implements AuthenticationSucc
     /**
      * Removes temporary authentication-related data which may have been stored
      * in the session during the authentication process..
-     * 
      */
     protected final void clearAuthenticationAttributes(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

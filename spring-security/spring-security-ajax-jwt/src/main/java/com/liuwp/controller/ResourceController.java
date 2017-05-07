@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ResourceController {
 
+
+
+
+
     @RequestMapping(value = "/api/me", method = RequestMethod.GET)
     public User get() {
         User user = new User();

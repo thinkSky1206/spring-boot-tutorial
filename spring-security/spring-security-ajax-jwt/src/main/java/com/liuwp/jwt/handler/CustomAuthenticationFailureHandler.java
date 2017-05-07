@@ -1,4 +1,4 @@
-package com.liuwp.jwt.login;
+package com.liuwp.jwt.handler;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import com.liuwp.jwt.exceptions.JwtExpiredTokenException;
 import com.liuwp.util.JsonUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -22,9 +23,9 @@ import org.springframework.stereotype.Component;
  *         Aug 3, 2016
  */
 @Component
-public class AjaxLoginAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    public AjaxLoginAuthenticationFailureHandler() {
+    public CustomAuthenticationFailureHandler() {
 
     }
 
@@ -41,8 +42,9 @@ public class AjaxLoginAuthenticationFailureHandler implements AuthenticationFail
             JsonUtil.getJsonMapper().writeValue(response.getWriter(), "Token has expired");
         } else if (e instanceof AuthMethodNotSupportedException) {
             JsonUtil.getJsonMapper().writeValue(response.getWriter(), e.getMessage());
+        } else if (e instanceof AuthenticationServiceException) {
+            JsonUtil.getJsonMapper().writeValue(response.getWriter(), e.getMessage());
         }
-
         JsonUtil.getJsonMapper().writeValue(response.getWriter(), "Authentication failed");
     }
 }

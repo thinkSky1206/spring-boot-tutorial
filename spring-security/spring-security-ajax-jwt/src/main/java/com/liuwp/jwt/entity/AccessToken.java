@@ -1,4 +1,4 @@
-package com.liuwp.jwt.entity.token;
+package com.liuwp.jwt.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -6,16 +6,17 @@ import io.jsonwebtoken.Claims;
 
 /**
  * Raw representation of JWT Token.
- * 
- * @author vladimir.stankovic
  *
+ * @author vladimir.stankovic
+ *         <p>
  *         May 31, 2016
  */
 public final class AccessToken implements JwtToken {
-    private final String rawToken;
-    @JsonIgnore private Claims claims;
+    private String rawToken;
+    @JsonIgnore
+    private Claims claims;
 
-    protected AccessToken(final String token, Claims claims) {
+    public AccessToken(String token, Claims claims) {
         this.rawToken = token;
         this.claims = claims;
     }
