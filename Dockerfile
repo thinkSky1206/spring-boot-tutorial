@@ -2,16 +2,16 @@ FROM ubuntu:14.04
 MAINTAINER Bibin Wilson <bibinwilsonn@gmail.com>
 
 # Make sure the package repository is up to date.
+RUN add-apt-repository ppa:openjdk-r/ppa
 RUN apt-get update
-RUN apt-get -y upgrade
-RUN apt-get install -y git
+RUN apt-get install  git
 # Install a basic SSH server
-RUN apt-get install -y openssh-server
+RUN apt-get install  openssh-server
 RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
 RUN mkdir -p /var/run/sshd
 
 # Install JDK 7 (latest edition)
-RUN apt-get install oracle-java8-installer
+RUN apt-get install openjdk-8-jdk
 
 # Add user jenkins to the image
 RUN adduser --quiet jenkins
@@ -24,7 +24,7 @@ ADD settings.xml /home/jenkins/.m2/
 
 RUN chown -R jenkins:jenkins /home/jenkins/.m2/ 
 
-RUN apt-get install -y maven
+RUN apt-get install  maven
 # Standard SSH port
 EXPOSE 22
 
