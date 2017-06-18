@@ -11,7 +11,9 @@ RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pa
 RUN mkdir -p /var/run/sshd
 
 # Install JDK 7 (latest edition)
-RUN apt-get install -y openjdk-8-jdk
+RUN add-apt-repository ppa:openjdk-r/ppa
+RUN apt-get update
+RUN apt-get install openjdk-8-jdk
 
 # Add user jenkins to the image
 RUN adduser --quiet jenkins
