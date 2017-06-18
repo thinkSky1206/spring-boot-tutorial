@@ -2,7 +2,6 @@ FROM ubuntu:14.04
 MAINTAINER Bibin Wilson <bibinwilsonn@gmail.com>
 
 # Make sure the package repository is up to date.
-RUN add-apt-repository ppa:openjdk-r/ppa
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get install -y git
@@ -12,7 +11,7 @@ RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pa
 RUN mkdir -p /var/run/sshd
 
 # Install JDK 7 (latest edition)
-RUN apt-get install openjdk-8-jdk
+RUN apt-get install -y openjdk-8-jre
 
 # Add user jenkins to the image
 RUN adduser --quiet jenkins
