@@ -2,6 +2,8 @@ FROM ubuntu:14.04
 MAINTAINER Bibin Wilson <bibinwilsonn@gmail.com>
 
 # Make sure the package repository is up to date.
+RUN apt-get update
+RUN apt-get install software-properties-common
 RUN add-apt-repository ppa:openjdk-r/ppa
 RUN apt-get update
 RUN apt-get install  git
