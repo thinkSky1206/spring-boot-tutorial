@@ -2,7 +2,6 @@ FROM ubuntu:14.04
 MAINTAINER Bibin Wilson <bibinwilsonn@gmail.com>
 
 # Make sure the package repository is up to date.
-RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get install -y git
